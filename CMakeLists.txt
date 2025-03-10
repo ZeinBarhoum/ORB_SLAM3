@@ -18,7 +18,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
 
 # Check C++14 or C++0x support
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 if(COMPILER_SUPPORTS_CXX14)
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
@@ -392,3 +392,54 @@ if(realsense2_FOUND)
             Examples_old/Stereo-Inertial/stereo_inertial_realsense_D435i.cc)
     target_link_libraries(stereo_inertial_realsense_D435i_old ${PROJECT_NAME})
 endif()
+
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
+
+# Define installation directories
+set(INSTALL_LIB_DIR lib)
+set(INSTALL_INCLUDE_DIR include)
+
+# Export the library target
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
+    LIBRARY DESTINATION ${INSTALL_LIB_DIR}
+    ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
+    RUNTIME DESTINATION bin
+)
+
+# Install headers
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+    DESTINATION ${INSTALL_INCLUDE_DIR}
+)
+# Install Thirdparty headers
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/DBoW2
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Thirdparty/DBoW2)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/DUtils
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Thirdparty/DBoW2)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus/sophus
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Thirdparty/Sophus)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/g2o
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Thirdparty/g2o)
+install(FILES ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/config.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/Thirdparty/g2o)
+
+# Create and install a CMake package configuration
+include(CMakePackageConfigHelpers)
+
+# Generate a config file that CMake can use
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ORB_SLAM3Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/ORB_SLAM3Config.cmake
+    INSTALL_DESTINATION lib/cmake/ORB_SLAM3
+)
+
+# Export targets
+install(EXPORT ${PROJECT_NAME}Targets
+    FILE ORB_SLAM3Targets.cmake
+    NAMESPACE ORB_SLAM3::
+    DESTINATION lib/cmake/ORB_SLAM3
+)
+
+# Install the config file
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ORB_SLAM3Config.cmake
+    DESTINATION lib/cmake/ORB_SLAM3
+)
