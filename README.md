@@ -1,5 +1,41 @@
 # ORB-SLAM3
 
+
+## This Fork
+
+This fork aims to provide ORB-SLAM3 as a package that can be used in other projects using `find_package` in cmake.
+
+First clone this repo:
+
+```bash
+git clone https://github.com/ZeinBarhoum/ORB_SLAM3.git
+```
+
+To build, simply:
+
+```bash
+./build.sh
+```
+
+The package is installed in the `install/` directory.
+
+To use ORB-SLAM3 in another project, simply do as the following
+
+```cmake
+list(APPEND CMAKE_PREFIX_PATH "path_to_ORB_SLAM3/install/cmake")
+find_package(ORB_SLAM3 REQUIRED)
+
+include_directories(${ORB_SLAM3_INCLUDE_DIRS})
+
+add_executable(example example.cpp)
+target_link_libraries(example ${ORB_SLAM3_LIBRARIES})
+
+```
+
+Replacing `path_to_ORB_SLAME3` with the path to the cloned directory.
+
+For an actual example, check `Examples_PKG/`.
+
 ### V1.0, December 22th, 2021
 **Authors:** Carlos Campos, Richard Elvira, Juan J. Gómez Rodríguez, [José M. M. Montiel](http://webdiis.unizar.es/~josemari/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/).
 
