@@ -429,17 +429,17 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ORB_SLAM3Config.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/ORB_SLAM3Config.cmake
-    INSTALL_DESTINATION lib/cmake/ORB_SLAM3
+    INSTALL_DESTINATION cmake
 )
 
 # Export targets
 install(EXPORT ${PROJECT_NAME}Targets
     FILE ORB_SLAM3Targets.cmake
     NAMESPACE ORB_SLAM3::
-    DESTINATION lib/cmake/ORB_SLAM3
+    DESTINATION cmake
 )
 
 # Install the config file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ORB_SLAM3Config.cmake
-    DESTINATION lib/cmake/ORB_SLAM3
+    DESTINATION cmake
 )
