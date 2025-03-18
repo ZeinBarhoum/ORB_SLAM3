@@ -8,7 +8,7 @@ This fork aims to provide ORB-SLAM3 as a package that can be used in other proje
 First clone this repo:
 
 ```bash
-git clone https://github.com/ZeinBarhoum/ORB_SLAM3.git
+git clone https://github.com/ZeinBarhoum/ORB_SLAM3_PKG.git
 ```
 
 To build, simply:
